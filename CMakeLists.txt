@@ -41,10 +41,10 @@ endif()
 include_directories(include src src/rml/include ${CMAKE_CURRENT_BINARY_DIR})
 
 option(TBB_BUILD_SHARED          "Build TBB shared library" ON)
-option(TBB_BUILD_STATIC          "Build TBB static library" ON)
+option(TBB_BUILD_STATIC          "Build TBB static library" OFF)
 option(TBB_BUILD_TBBMALLOC       "Build TBB malloc library" ON)
 option(TBB_BUILD_TBBMALLOC_PROXY "Build TBB malloc proxy library" ON)
-option(TBB_BUILD_TESTS           "Build TBB tests and enable testing infrastructure" ON)
+option(TBB_BUILD_TESTS           "Build TBB tests and enable testing infrastructure" OFF)
 option(TBB_CI_BUILD              "Is this a continuous integration build?" OFF)
 option(TBB_NO_DATE               "Do not save the configure date in the version string" OFF)
 
