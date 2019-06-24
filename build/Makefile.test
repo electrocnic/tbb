@@ -103,6 +103,7 @@ test_dynamic_link.$(TEST_EXT): LIBS += $(LIBDL)
 ifneq (,$(BIGOBJ_KEY))
 TEST_BIGOBJ = test_opencl_node.$(TEST_EXT)      \
     test_atomic.$(TEST_EXT)                     \
+    test_concurrent_hash_map.$(TEST_EXT)        \
     test_concurrent_unordered_set.$(TEST_EXT)   \
     test_concurrent_unordered_map.$(TEST_EXT)   \
     test_join_node_key_matching.$(TEST_EXT)     \

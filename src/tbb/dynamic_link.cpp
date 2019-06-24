@@ -24,6 +24,13 @@
 */
 
 #include <cstdarg>          // va_list etc.
+
+#if __CYGWIN__
+// for cygwin implementation of dladdr in /usr/include/dlfcn.h
+  #undef __GNU_VISIBLE
+  #define __GNU_VISIBLE 1
+#endif
+
 #if _WIN32
     #include <malloc.h>
 

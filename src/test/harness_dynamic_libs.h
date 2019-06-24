@@ -41,6 +41,9 @@ namespace Harness {
 #if _WIN32||_WIN64
 #define PREFIX
 #define EXT ".dll"
+#elif __CYGWIN__
+  #define PREFIX "cyg"
+  #define EXT ".dll"
 #else
 #define PREFIX "lib"
 #if __APPLE__
@@ -65,7 +68,7 @@ typedef  HMODULE LIBRARY_HANDLE;
 typedef void *LIBRARY_HANDLE;
 #endif
 
-#if _WIN32 || _WIN64
+#if _WIN32 || _WIN64 || __CYGWIN__
 #define TEST_LIBRARY_NAME(base) base".dll"
 #elif __APPLE__
 #define TEST_LIBRARY_NAME(base) base".dylib"

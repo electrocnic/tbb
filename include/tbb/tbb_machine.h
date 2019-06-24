@@ -214,6 +214,21 @@ template<> struct atomic_selector<8> {
 #pragma managed(pop)
 #endif
 
+#elif __CYGWIN__
+
+    #include <sched.h>
+    #define __TBB_Yield()  sched_yield()
+
+    #if (TBB_USE_GCC_BUILTINS && __TBB_GCC_BUILTIN_ATOMICS_PRESENT)
+        #include "machine/gcc_generic.h"
+    #elif __i386__
+        #include "machine/linux_ia32.h"
+    #elif __x86_64__
+        #include "machine/linux_intel64.h"
+    #elif __TBB_GCC_BUILTIN_ATOMICS_PRESENT
+        #include "machine/gcc_generic.h"
+    #endif
+
 #elif __TBB_DEFINE_MIC
 
     #include "machine/mic_common.h"

@@ -94,7 +94,7 @@ LINK_FILES+=$(TEST_LIBS)
 	$(call make-test-binary,$@,$< $(LINK_FILES) $(PIE_FLAG))
 
 # Rules for generating a test DLL
-%_dll.$(DLL): LINK_FLAGS += $(PIC_KEY) $(DYLIB_KEY)
+%_dll.$(DLL): LINK_FLAGS += $(PIC_KEY) $(DYLIB_KEY) $(LIB_LINK_FLAGS)
 %_dll.$(DLL): TEST_LIBS := $(subst %_dll.$(DLL),,$(TEST_LIBS))
 %_dll.$(DLL): %_dll.$(OBJ)
 	$(call make-test-binary,$@,$< $(LINK_FILES))
