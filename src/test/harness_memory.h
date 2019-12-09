@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2005-2017 Intel Corporation
+    Copyright (c) 2005-2019 Intel Corporation
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -12,10 +12,6 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-
-
-
 */
 
 // Declarations for simple estimate of the memory being used by a program.
@@ -111,3 +107,35 @@ void UseStackSpace( size_t amount, char* top=0 ) {
     if( size_t(top-x)<amount )
         UseStackSpace( amount, top );
 }
+
+#if __linux__
+// Parse file utility
+#include "../tbbmalloc/shared_utils.h"
+
+inline bool isTHPEnabledOnMachine() {
+    unsigned long long thpPresent = 'n';
+    parseFileItem thpItem[] = { { "[alwa%cs] madvise never\n", thpPresent } };
+    parseFile</*BUFF_SIZE=*/100>("/sys/kernel/mm/transparent_hugepage/enabled", thpItem);
+
+    if (thpPresent == 'y') {
+        return true;
+    } else {
+        return false;
+    }
+}
+inline unsigned long long getSystemTHPAllocatedSize() {
+    unsigned long long anonHugePagesSize = 0;
+    parseFileItem meminfoItems[] = {
+        { "AnonHugePages: %llu kB", anonHugePagesSize } };
+    parseFile</*BUFF_SIZE=*/100>("/proc/meminfo", meminfoItems);
+    return anonHugePagesSize;
+}
+inline unsigned long long getSystemTHPCount() {
+    unsigned long long anonHugePages = 0;
+    parseFileItem vmstatItems[] = {
+        { "nr_anon_transparent_hugepages %llu", anonHugePages } };
+    parseFile</*BUFF_SIZE=*/100>("/proc/vmstat", vmstatItems);
+    return anonHugePages;
+}
+#endif // __linux__
+

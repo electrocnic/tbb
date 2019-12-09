@@ -1,4 +1,4 @@
-# Copyright (c) 2005-2017 Intel Corporation
+# Copyright (c) 2005-2019 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,10 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-#
-#
-#
 
 ifndef tbb_os
 
@@ -39,8 +35,13 @@ ifndef tbb_os
 
 endif # !tbb_os
 
-ifeq ($(tbb_cpf),1)
+ifeq (1,$(tbb_cpf))
   export CPF_SUFFIX ?=_preview
+endif
+
+ifeq (0,$(exceptions))
+# Inverse the value, for simplicity of use
+  export no_exceptions=1
 endif
 
 ifdef cpp0x
@@ -49,12 +50,19 @@ ifdef cpp0x
     override cpp0x=
 endif
 
+# Define C & C++ compilers according to platform defaults or CXX & CC environment variables
+ifneq (,$(findstring environment, $(origin CXX)))
+    CPLUS = $(CXX)
+endif
+ifneq (,$(findstring environment, $(origin CC)))
+    CONLY = $(CC)
+endif
+
 ifneq (,$(stdver))
     ifeq (,$(findstring ++, $(stdver)))
         $(warning "Warning: unexpected stdver=$(stdver) is used.")
     endif
-
-    CXX_STD_FLAGS=-std=$(stdver) -D_TBB_CPP0X
+    CXX_STD_FLAGS=-std=$(stdver)
 endif
 
 # The requested option is added unconditionally.

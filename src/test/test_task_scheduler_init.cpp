@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2005-2017 Intel Corporation
+    Copyright (c) 2005-2019 Intel Corporation
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -12,10 +12,6 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-
-
-
 */
 
 // We want to test waiting for workers feature with non-preview binaries. However,
@@ -26,24 +22,12 @@
 
 #include "tbb/task_scheduler_init.h"
 #include <cstdlib>
-#include "harness_assert.h"
-
 #include <cstdio>
-
-#if !TBB_USE_EXCEPTIONS && _MSC_VER
-    // Suppress "C++ exception handler used, but unwind semantics are not enabled" warning in STL headers
-    #pragma warning (push)
-    #pragma warning (disable: 4530)
-#endif
-
 #if TBB_USE_EXCEPTIONS
 #include <stdexcept>
 #endif
 
-#if !TBB_USE_EXCEPTIONS && _MSC_VER
-    #pragma warning (pop)
-#endif
-
+#include "harness_assert.h"
 #if _MSC_VER
 #pragma warning (push)
     // MSVC discovers that ASSERT(false) inside TestBlockingTerminateNS::ExceptionTest2::Body makes the code
