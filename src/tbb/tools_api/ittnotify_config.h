@@ -79,6 +79,9 @@
 #endif
 
 #include <stddef.h>
+#include <string.h>
+#include <cstring>
+
 #if ITT_PLATFORM==ITT_PLATFORM_WIN
 #include <tchar.h>
 #else  /* ITT_PLATFORM==ITT_PLATFORM_WIN */
